@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Makroekonomik Veri ve Eğilimler – Eğitim Amaçlı Bilgi Platformu</title>
+    <meta name="description" content="GSYH, istihdam, enflasyon ve ticaret politikalarına ilişkin bağımsız veri özetleri. Yatırım tavsiyesi içermez, yalnızca eğitim amaçlıdır." />
+    <style>
+        /* ===== 全新配色：暖橙 (#f39c12) + 深海蓝 (#2c3e50) + 柔和灰白 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9fafc;
+            color: #2d3748;
+            line-height: 1.6;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: left;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 0 40px;
+        }
+
+        /* ===== 全新布局：顶部横幅 + 下方卡片网格 ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 20px;
+            border-bottom: 3px solid #f39c12;
+            margin-bottom: 36px;
+            background: transparent;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #2c3e50;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #f39c12;
+            background: #2c3e50;
+            padding: 0 8px;
+            border-radius: 6px;
+        }
+        .header-tag {
+            font-size: 0.8rem;
+            color: #2c3e50;
+            background: #f39c12;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 主横幅区 - 带装饰条 */
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4f9 100%);
+            border-radius: 30px;
+            padding: 50px 45px 45px;
+            box-shadow: 0 15px 35px rgba(44, 62, 80, 0.08);
+            border: 1px solid rgba(243, 156, 18, 0.2);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: #f39c12;
+            border-radius: 30px 0 0 30px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: #f39c12;
+            color: #2c3e50;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 20px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+        }
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+        .hero h1 .highlight {
+            color: #f39c12;
+            background: #2c3e50;
+            padding: 0 10px;
+            display: inline-block;
+            border-radius: 8px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            max-width: 650px;
+            margin-bottom: 28px;
+        }
+        .cta-wrapper {
+            margin-top: 6px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: #f39c12;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 16px 48px;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.35);
+            border: 2px solid #f39c12;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+        .cta-btn:hover {
+            background: #2c3e50;
+            color: #f39c12;
+            border-color: #2c3e50;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(44, 62, 80, 0.25);
+        }
+        .cta-btn .arrow {
+            display: inline-block;
+            margin-left: 10px;
+            transition: transform 0.25s;
+        }
+        .cta-btn:hover .arrow {
+            transform: translateX(6px);
+        }
+
+        /* 三列卡片 - 全新样式 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+        .feature-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 30px 24px 28px;
+            border: 1px solid #eaeef3;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.02);
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #f39c12;
+            box-shadow: 0 16px 35px rgba(243, 156, 18, 0.12);
+        }
+        .feature-icon {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 14px;
+            background: #fef6ed;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #f39c12;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+        .feature-card p {
+            font-size: 0.95rem;
+            color: #5a6a7a;
+            line-height: 1.6;
+        }
+
+        /* 免责声明 - 新风格 */
+        .disclaimer {
+            background: #2c3e50;
+            border-radius: 24px;
+            padding: 28px 32px 26px;
+            margin-top: 10px;
+            margin-bottom: 28px;
+            border-left: 6px solid #f39c12;
+            color: #eef2f7;
+        }
+        .disclaimer p {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #d5dce4;
+        }
+        .disclaimer strong {
+            color: #f39c12;
+            font-weight: 700;
+        }
+        .disclaimer .warning-highlight {
+            color: #f1c40f;
+            font-weight: 800;
+        }
+        .disclaimer .extra-warning {
+            display: block;
+            margin-top: 12px;
+            color: #f39c12;
+            font-weight: 700;
+            background: rgba(243, 156, 18, 0.12);
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+
+        /* 页脚 */
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-top: 22px;
+            border-top: 2px solid #e2e8f0;
+            font-size: 0.8rem;
+            color: #5a6a7a;
+            gap: 12px 20px;
+        }
+        .footer a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            color: #f39c12;
+            text-decoration: underline;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .footer-company {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.75rem;
+            color: #5a6a7a;
+        }
+        .footer-company strong {
+            color: #2c3e50;
+        }
+        .footer-company .contact-phone {
+            direction: ltr;
+            unicode-bidi: plaintext;
+        }
+
+        /* 悬浮按钮 (移动) */
+        .floating-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: #f39c12;
+            color: #2c3e50;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 14px 32px;
+            border-radius: 60px;
+            text-decoration: none;
+            box-shadow: 0 8px 28px rgba(243, 156, 18, 0.4);
+            transition: all 0.25s;
+            display: none;
+            letter-spacing: 0.5px;
+            border: 2px solid #f39c12;
+            cursor: pointer;
+            text-align: center;
+            min-width: 160px;
+            white-space: nowrap;
+        }
+        .floating-btn:hover {
+            background: #2c3e50;
+            color: #f39c12;
+            border-color: #2c3e50;
+            transform: translateX(-50%) scale(1.02);
+        }
+        .floating-btn:active {
+            transform: translateX(-50%) scale(0.97);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .floating-btn {
+                display: block;
+            }
+            body {
+                padding-bottom: 100px;
+                padding: 0 16px;
+            }
+            .container {
+                padding: 16px 0 24px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding-bottom: 16px;
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+            .hero {
+                padding: 32px 22px 30px;
+                border-radius: 20px;
+            }
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .cta-btn {
+                font-size: 1rem;
+                padding: 14px 32px;
+                width: 100%;
+                text-align: center;
+            }
+            .cta-wrapper {
+                width: 100%;
+            }
+            .features {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .feature-card {
+                padding: 22px 18px 20px;
+            }
+            .disclaimer {
+                padding: 20px 18px 18px;
+            }
+            .disclaimer p {
+                font-size: 0.75rem;
+            }
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding-top: 18px;
+            }
+            .floating-btn {
+                font-size: 0.95rem;
+                padding: 12px 24px;
+                min-width: 140px;
+                bottom: 20px;
+            }
+        }
+        @media (max-width: 380px) {
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+            .cta-btn {
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+            .floating-btn {
+                font-size: 0.85rem;
+                padding: 10px 18px;
+                min-width: 120px;
+                bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">Fin<span>Insight</span></div>
+            <span class="header-tag">📘 Eğitim Kaynağı</span>
+        </header>
+
+        <section class="hero">
+            <div class="hero-badge">📊 Bağımsız Veri Özeti</div>
+            <h1>
+                Makroekonomik Veriler<br />
+                <span class="highlight">ve Küresel Eğilimler</span>
+            </h1>
+            <p>
+                GSYH, istihdam, enflasyon ve ticaret politikaları gibi temel göstergelere ilişkin
+                <strong>salt eğitim ve bilgilendirme</strong> amaçlı analitik bir bakış sunuyoruz.
+                Bu platformda kesinlikle yatırım veya ticaret tavsiyesi yer almaz.
+            </p>
+            <div class="cta-wrapper">
+                <a href="https://lihi1.me/3oZpR" target="_blank" rel="noopener noreferrer" class="cta-btn">
+                    Bilgi Topluluğuna Katıl <span class="arrow">→</span>
+                </a>
+            </div>
+        </section>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Gerçek Ekonomi Verileri</h3>
+                <p>GSYH büyümesi, işsizlik oranları ve hanehalkı tüketim harcamalarına dair karşılaştırmalı özetler.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📉</div>
+                <h3>Tarihsel Perspektif</h3>
+                <p>Merkez bankası faiz politikaları ve emtia fiyatlarındaki uzun vadeli eğilimlerin objektif incelemesi.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <h3>Küresel Politika Dinamikleri</h3>
+                <p>Uluslararası ticaret anlaşmaları ve büyük ekonomilerin para politikalarına ilişkin güncel bilgiler.</p>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <p>
+                <span class="warning-highlight">⚠️ Önemli ve Kapsamlı Sorumluluk Reddi:</span><br /><br />
+                Bu sitede yer alan tüm içerik, rakamlar ve analizler <strong>kesinlikle eğitim, araştırma ve bilgilendirme amaçlıdır</strong>.
+                Hiçbir şekilde finansal, hukuki veya ticari bir danışmanlık hizmeti teşkil etmez.
+                <br /><br />
+                <strong>Burada sunulan hiçbir bilgiye dayanarak</strong> gerçek veya tüzel kişiler adına alım-satım, portföy yönetimi veya sermaye piyasası işlemleri gerçekleştirilemez.
+                Geçmiş veriler, gelecekteki performans için kesin bir gösterge değildir. Verilerin doğruluğu, güncelliği ve eksiksizliği konusunda hiçbir garanti verilmemektedir.
+                <br /><br />
+                <strong>Ekonomik veriler yorumlanırken basitleştirme ve hata payı olabileceği göz önünde bulundurulmalıdır.</strong>
+                Herhangi bir mali karar öncesinde mutlaka alanında yetkin bağımsız uzmanlara danışılması ve birden fazla kaynaktan teyit alınması şiddetle tavsiye edilir.
+                <br /><br />
+                Bu platformu kullanarak, <strong>tüm değerlendirme ve karar sorumluluğunun ziyaretçiye ait olduğunu</strong>,
+                olası zarar veya kayıplardan platform işletmesinin hiçbir şekilde sorumlu olmadığını kabul etmiş sayılırsınız.
+                <br />
+                <span class="extra-warning">🚫 Bu site, hisse senedi, döviz veya herhangi bir enstrüman alım-satımı önermez. Yatırım danışmanlığı değildir.</span>
+            </p>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-company">
+               
+                <span>© 2026 Insight Global Analytics. Tüm hakları saklıdır.</span>
+            </div>
+            <div class="footer-links">
+                <a href="#" rel="nofollow">Gizlilik Politikası</a>
+                <a href="#" rel="nofollow">Kullanım Koşulları</a>
+                <a href="#" rel="nofollow">Hakkımızda</a>
+                <a href="#" rel="nofollow">İletişim</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 悬浮按钮 -->
+    <a href="https://lihi1.me/3oZpR" target="_blank" rel="noopener noreferrer" class="floating-btn">
+        Bilgi Topluluğuna Katıl
+    </a>
+</body>
+</html>
